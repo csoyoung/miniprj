@@ -12,6 +12,7 @@ import com.miniprj.dto.MemberDTO;
 
 
 
+
 public class MemberDAO {
 
 	
@@ -221,6 +222,37 @@ public MemberDAO() {
 		if(pstmt!=null) try {pstmt.close();} catch(SQLException e) {}
 		if(conn!=null) try {conn.close();} catch(SQLException e) {}
 		
+	}
+	
+	public boolean cid(String id) {
+		Connection conn=getConnection();
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		StringBuilder sql=new StringBuilder();
+		
+		
+		
+		try {
+			sql.append(" select   id                ");
+			sql.append("    from member             ");
+			sql.append("    where id=?              ");
+		
+
+			pstmt=conn.prepareStatement(sql.toString());
+   		    pstmt.setString(1, id);
+
+			rs=pstmt.executeQuery();
+			
+			if(rs.next())
+				return true;
+		
+		}catch(SQLException e) {
+			System.out.println(e);
+		}finally {
+			close(pstmt,conn);
+		}
+		return false;
 	}
 	
 
